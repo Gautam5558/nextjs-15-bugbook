@@ -1,3 +1,20 @@
+"use client";
+import { signOut, useSession } from "next-auth/react";
+
 export default function Home() {
-  return <div className="flex flex-row text-red-500">hnji kidda</div>;
+  const session = useSession();
+  console.log(session);
+  const handleClick = () => {
+    signOut({ callbackUrl: "/auth/login" });
+  };
+
+  return (
+    <button
+      onClick={() => {
+        handleClick();
+      }}
+    >
+      signOut
+    </button>
+  );
 }
