@@ -5,7 +5,7 @@ export default function Home() {
   const session = useSession();
   console.log(session);
   const handleClick = () => {
-    signOut({ callbackUrl: "/auth/login" });
+    signOut();
   };
 
   return (

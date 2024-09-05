@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { Inter } from "next/font/google";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,6 +22,8 @@ export const metadata: Metadata = {
   description: "The social media app for powernerdds",
 };
 
+const inter = Inter({ subsets: ["latin"] });
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -30,7 +33,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={inter.className}>
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>

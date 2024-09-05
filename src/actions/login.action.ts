@@ -46,7 +46,6 @@ export const login = async (values: z.infer<typeof loginFormSchema>) => {
         }
       }
     }
-    console.log("wtf!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     throw err;
   }
 

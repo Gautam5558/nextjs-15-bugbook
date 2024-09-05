@@ -1,10 +1,6 @@
 // these are public rotes, anyone can acces them
 
-export const publicRoutes = [
-  "/",
-  "/auth/new-verification",
-  "/auth/new-password",
-];
+export const publicRoutes = ["/auth/new-verification", "/auth/new-password"];
 
 // Routes that are used by nextjs to facilitate auth like /api/auth/...
 // So these routes are hit by nextjs for auth to work , hence they are made public
@@ -24,6 +20,6 @@ export const authRoutes = [
   "/auth/reset",
 ];
 
-// When a person logs in we will redirect them to "/settings route"
+// When a person logs in we will redirect them to "/ route"
 
-export const DEFAULT_LOGIN_REDIRECT = "/settings";
+export const DEFAULT_LOGIN_REDIRECT = "/";
