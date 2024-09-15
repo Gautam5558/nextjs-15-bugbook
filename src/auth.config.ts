@@ -33,7 +33,7 @@ export default {
           if (passwordMatches) {
             const userData: User = {
               id: existingUser.id,
-              name: existingUser.name,
+              name: existingUser.username,
               image: existingUser.image,
               email: existingUser.email,
             };

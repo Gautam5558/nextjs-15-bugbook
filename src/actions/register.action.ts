@@ -24,12 +24,23 @@ export const register = async (values: z.infer<typeof registerFormSchema>) => {
     return { error: "Email already in use", success: undefined };
   }
 
+  const existingUsername = await db.user.findUnique({
+    where: {
+      username,
+    },
+  });
+
+  if (existingUsername) {
+    return { error: "Username already in use", success: undefined };
+  }
+
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
 
   const newUser = await db.user.create({
     data: {
-      name: username,
+      username,
+      displayName: username,
       password: hashedPassword,
       email,
     },

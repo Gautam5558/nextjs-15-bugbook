@@ -15,14 +15,16 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
+  id            String       @id @default(cuid())
+  username      String       @unique
+  displayName   String 
+  email         String       @unique
   password      String?
   emailVerified DateTime?
   image         String?
+  bio           String?
   accounts      Account[]
-  sessions      Session[]
+  posts         Post[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -51,23 +53,12 @@ model Account {
   @@map("accounts")
 }
  
-model Session {
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+model Post {
+  id  String   @id @default(cuid())
+  userId String 
+  content String
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@map("sessions")
+
+  @@map("posts")
 }
- 
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
- 
-  @@id([identifier, token])
-  @@map("verification-tokens")
-}
- 
