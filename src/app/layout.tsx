@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,6 +44,7 @@ export default async function RootLayout({
         >
           <SessionProvider session={session}>{children}</SessionProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

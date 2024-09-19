@@ -12,5 +12,5 @@ export const registerFormSchema = z.object({
 });
 
 export const postValidationSchema = z.object({
-  content: z.string().trim().min(1, "required"),
+  content: z.string().trim().min(1, { message: "required" }),
 });

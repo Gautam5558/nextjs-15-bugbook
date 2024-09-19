@@ -1,25 +1,20 @@
-"use client";
+import PostCard from "@/components/post-card";
 import PostEditor from "@/components/post-editor";
-import { signOut, useSession } from "next-auth/react";
+import { db } from "@/lib/connectDb";
+import { postDataInclude } from "@/lib/types";
 
-export default function Home() {
-  const session = useSession();
-  console.log(session);
-  const handleClick = () => {
-    signOut();
-  };
-
+export default async function Home() {
+  const feedData = await db.post.findMany({
+    orderBy: { createdAt: "desc" },
+    include: postDataInclude,
+  });
   return (
-    <main className="h-[200vh] w-full bg-red-50">
-      <div className="w-full">
+    <main className="w-full min-w-0">
+      <div className="w-full min-w-0 space-y-5">
         <PostEditor />
-        <button
-          onClick={() => {
-            handleClick();
-          }}
-        >
-          signOut
-        </button>
+        {feedData.map((item) => {
+          return <PostCard item={item} key={item.id} />;
+        })}
       </div>
     </main>
   );

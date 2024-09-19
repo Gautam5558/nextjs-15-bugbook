@@ -7,6 +7,7 @@ import { submitPost } from "@/actions/submitPost.action";
 import UserAvatar from "@/app/(main)/_components/user-avatar";
 import { useSession } from "next-auth/react";
 import { Button } from "./ui/button";
+import { toast } from "@/hooks/use-toast";
 
 const PostEditor = () => {
   const session = useSession();
@@ -29,8 +30,18 @@ const PostEditor = () => {
     }) || "";
 
   const hanldeSubmit = async () => {
-    await submitPost({ content: input });
-    editor?.commands.clearContent();
+    try {
+      await submitPost({ content: input });
+      editor?.commands.clearContent();
+      toast({ description: "New post created!" });
+    } catch (err) {
+      editor?.commands.clearContent();
+      if (err instanceof Error) {
+        toast({ description: err.message });
+      } else {
+        toast({ description: "Something went wrong!" });
+      }
+    }
   };
 
   return (
