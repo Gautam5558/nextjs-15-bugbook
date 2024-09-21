@@ -1,5 +1,5 @@
 import UserAvatar from "@/app/(main)/_components/user-avatar";
-import { PostData } from "@/lib/types";
+import type { PostData } from "@/lib/types";
 import { formatRelativeDate } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
