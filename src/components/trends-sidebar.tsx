@@ -22,11 +22,6 @@ const TrendsSidebar = () => {
 export default TrendsSidebar;
 
 async function WhoToFollow() {
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(5);
-    }, 5000);
-  });
   const session = await auth();
   if (session && session.user) {
     const users = await db.user.findMany({
