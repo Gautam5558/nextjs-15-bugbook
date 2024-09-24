@@ -3,7 +3,7 @@ import { db } from "@/lib/connectDb";
 import { postDataInclude } from "@/lib/types";
 import { NextRequest } from "next/server";
 
-async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
     const session = await auth();
 

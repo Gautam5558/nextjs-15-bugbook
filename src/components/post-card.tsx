@@ -26,7 +26,7 @@ const PostCard = ({ item }: PostCardProps) => {
             href={"/posts/" + item.id}
             className="block text-sm text-muted-foreground hover:underline"
           >
-            {formatRelativeDate(item.createdAt)}
+            {/* formatRelativeDate(item.createdAt) */}
           </Link>
         </div>
       </div>

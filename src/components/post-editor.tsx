@@ -22,6 +22,7 @@ const PostEditor = () => {
         placeholder: "What's hackin",
       }),
     ],
+    immediatelyRender: false,
   });
 
   const input =
