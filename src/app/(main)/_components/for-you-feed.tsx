@@ -2,11 +2,11 @@
 
 import InfiniteScrollContainer from "@/components/infinite-scroll-container";
 import PostCard from "@/components/post-card";
-import { Button } from "@/components/ui/button";
 import kyInstance from "@/lib/ky";
-import type { PostData, PostsPage } from "@/lib/types";
+import type { PostsPage } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import PostsLoadingSkeleton from "./posts-loading-skeleton";
 
 const ForYouFeed = () => {
   const {
@@ -35,7 +35,7 @@ const ForYouFeed = () => {
     }) || [];
 
   if (status === "pending") {
-    return <Loader2 className="mx-auto animate-spin" />;
+    return <PostsLoadingSkeleton />;
   }
 
   if (status === "error") {
