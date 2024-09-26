@@ -1,22 +1,44 @@
 "use client";
 
+import InfiniteScrollContainer from "@/components/infinite-scroll-container";
 import PostCard from "@/components/post-card";
+import { Button } from "@/components/ui/button";
 import kyInstance from "@/lib/ky";
-import type { PostData } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
+import type { PostData, PostsPage } from "@/lib/types";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
 const ForYouFeed = () => {
-  const query = useQuery<PostData[]>({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
     queryKey: ["post-feed", "for-you"],
-    queryFn: kyInstance.get("/api/posts/for-you").json<PostData[]>,
+    queryFn: ({ pageParam }) =>
+      kyInstance
+        .get(
+          "/api/posts/for-you",
+          pageParam ? { searchParams: { cursor: pageParam } } : {},
+        )
+        .json<PostsPage>(),
+    initialPageParam: null as string | null,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  if (query.status === "pending") {
+  const posts =
+    data?.pages.flatMap((page) => {
+      return page.posts;
+    }) || [];
+
+  if (status === "pending") {
     return <Loader2 className="mx-auto animate-spin" />;
   }
 
-  if (query.status === "error") {
+  if (status === "error") {
     return (
       <p className="text-center text-destructive">
         An error occurred while loading posts.
@@ -25,11 +47,15 @@ const ForYouFeed = () => {
   }
 
   return (
-    <>
-      {query.data.map((item) => {
+    <InfiniteScrollContainer
+      onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
+      className="space-y-5"
+    >
+      {posts.map((item) => {
         return <PostCard key={item.id} item={item} />;
       })}
-    </>
+      {isFetchingNextPage && <Loader2 className="mx-auto animate-spin" />}
+    </InfiniteScrollContainer>
   );
 };
 
