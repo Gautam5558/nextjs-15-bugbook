@@ -3,14 +3,14 @@ import "../styles/editor.css";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import PlaceHolder from "@tiptap/extension-placeholder";
-import { submitPost } from "@/actions/submitPost.action";
 import UserAvatar from "@/app/(main)/_components/user-avatar";
 import { useSession } from "next-auth/react";
 import { Button } from "./ui/button";
-import { toast } from "@/hooks/use-toast";
+import { useCreatePostMutation } from "@/mutations/createPost.mutation";
 
 const PostEditor = () => {
   const session = useSession();
+  const mutation = useCreatePostMutation();
 
   const editor = useEditor({
     extensions: [
@@ -31,18 +31,14 @@ const PostEditor = () => {
     }) || "";
 
   const hanldeSubmit = async () => {
-    try {
-      await submitPost({ content: input });
-      editor?.commands.clearContent();
-      toast({ description: "New post created!" });
-    } catch (err) {
-      editor?.commands.clearContent();
-      if (err instanceof Error) {
-        toast({ description: err.message });
-      } else {
-        toast({ description: "Something went wrong!" });
-      }
-    }
+    mutation.mutate(
+      { content: input },
+      {
+        onSuccess: () => {
+          editor?.commands.clearContent();
+        },
+      },
+    );
   };
 
   return (

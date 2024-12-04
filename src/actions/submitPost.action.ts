@@ -2,8 +2,8 @@
 
 import { auth } from "@/auth";
 import { db } from "@/lib/connectDb";
+import { postDataInclude } from "@/lib/types";
 import { postValidationSchema } from "@/schemas";
-import { User } from "next-auth";
 import { z } from "zod";
 
 export const submitPost = async (
@@ -30,7 +30,9 @@ export const submitPost = async (
         content,
         userId: user.id,
       },
+      include: postDataInclude,
     });
+    return newPost;
   } else {
     throw new Error("Unauthorized");
   }

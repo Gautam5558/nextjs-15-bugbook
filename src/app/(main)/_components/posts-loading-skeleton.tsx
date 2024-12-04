@@ -23,6 +23,7 @@ const PostLoadingSkeleton = () => {
           <Skeleton className="h-4 w-20 rounded" />
         </div>
       </div>
+      <Skeleton className="h-16 rounded" />
     </div>
   );
 };

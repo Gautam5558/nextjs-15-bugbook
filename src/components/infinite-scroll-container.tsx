@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -16,8 +17,8 @@ const InfiniteScrollContainer = ({
     rootMargin: "200px",
     onChange(inView) {
       if (inView) {
+        onBottomReached();
       }
-      onBottomReached();
     },
   });
   return (
