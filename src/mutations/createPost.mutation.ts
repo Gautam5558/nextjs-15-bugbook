@@ -8,6 +8,10 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
+// This entire code could be written in the PostEditor component but i wanted
+// to separate a piece of logic from the component because its makes the component
+// more complex. So i wrote a custom hook instead.
+
 export const useCreatePostMutation = () => {
   const { toast } = useToast();
 
@@ -39,7 +43,6 @@ export const useCreatePostMutation = () => {
           }
         },
       );
-      toast({ description: "New Post Created!" });
     },
 
     onError(error) {
