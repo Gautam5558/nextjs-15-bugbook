@@ -25,6 +25,8 @@ model User {
   bio           String?
   accounts      Account[]
   posts         Post[]
+  followers     Follow[] @relation("followers")
+  following     Follow[] @relation("following")
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -61,4 +63,17 @@ model Post {
   createdAt DateTime @default(now())
 
   @@map("posts")
+}
+
+
+model Follow {
+  followerId  String
+  followingId String
+
+  follower User @relation("followers",fields: [followerId],references: [id],onDelete: Cascade)
+  following User @relation("following",fields: [followingId],references: [id],onDelete: Cascade)
+
+  @@id([followerId,followingId])
+  @@map("follows")
+
 }

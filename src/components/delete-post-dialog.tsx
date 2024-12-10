@@ -20,8 +20,8 @@ interface DeletePostDialogProps {
 const DeletePostDialog = ({ post, open, onClose }: DeletePostDialogProps) => {
   const mutation = useDeletePostMutation();
 
-  const handleOpenChange = () => {
-    if (!open || !mutation.isPending) {
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen && !mutation.isPending) {
       onClose();
     }
   };
