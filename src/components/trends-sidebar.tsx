@@ -3,7 +3,6 @@ import { auth } from "@/auth";
 import { db } from "@/lib/connectDb";
 import Link from "next/link";
 import React, { Suspense } from "react";
-import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { unstable_cache } from "next/cache";
 import { formatNumber } from "@/lib/utils";
@@ -30,6 +29,11 @@ async function WhoToFollow() {
       where: {
         NOT: {
           id: session.user.id,
+        },
+        followers: {
+          none: {
+            followerId: session.user.id,
+          },
         },
       },
       select: getUserDataSelect(session.user.id),
