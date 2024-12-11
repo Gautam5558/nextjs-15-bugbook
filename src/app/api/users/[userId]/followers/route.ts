@@ -52,7 +52,7 @@ export async function GET(
 // create throws an error if the entry already exists but upsert ignores if already
 // exits and creates a new one if it doesnt
 
-export async function Post(
+export async function POST(
   req: Request,
   { params: { userId } }: { params: { userId: string } },
 ) {
@@ -88,7 +88,7 @@ export async function Post(
 // to delete doesnt exist but deleteMany ignores if it doesnt exist and deletes
 // if it does exist
 
-export async function Delete(
+export async function DELETE(
   req: Request,
   { params: { userId } }: { params: { userId: string } },
 ) {

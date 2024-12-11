@@ -7,6 +7,8 @@ import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { unstable_cache } from "next/cache";
 import { formatNumber } from "@/lib/utils";
+import FollowButton from "./follow-button";
+import { getUserDataSelect } from "@/lib/types";
 
 const TrendsSidebar = () => {
   return (
@@ -23,27 +25,23 @@ export default TrendsSidebar;
 
 async function WhoToFollow() {
   const session = await auth();
-  if (session && session.user) {
+  if (session && session.user && session.user.id) {
     const users = await db.user.findMany({
       where: {
         NOT: {
           id: session.user.id,
         },
       },
-      select: {
-        username: true,
-        displayName: true,
-        image: true,
-        id: true,
-        email: true,
-      },
+      select: getUserDataSelect(session.user.id),
       take: 3,
     });
+
+    const loggedInUserId = session.user.id;
 
     return (
       <div className="space-y-5 rounded-2xl bg-card p-5 shadow-sm">
         <div className="text-xl font-bold">Who to follow</div>
-        {users.map((item) => {
+        {users.map(async (item) => {
           return (
             <div
               key={item.id}
@@ -60,7 +58,15 @@ async function WhoToFollow() {
                   </p>
                 </div>
               </Link>
-              <Button>Follow</Button>
+              <FollowButton
+                userId={item.id}
+                initialState={{
+                  followers: item._count.followers,
+                  isFollowedByUser: item.followers.some(({ followerId }) => {
+                    return followerId === loggedInUserId;
+                  }),
+                }}
+              />
             </div>
           );
         })}
