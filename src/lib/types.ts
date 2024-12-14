@@ -38,6 +38,12 @@ export const postDataInclude = {
 export type PostData = Prisma.PostGetPayload<{
   include: typeof postDataInclude;
 }>;
+export type UserData = Omit<
+  Prisma.UserGetPayload<{
+    include: ReturnType<typeof getUserDataSelect>;
+  }>,
+  "password" | "emailVerified" | "updatedAt"
+>;
 
 export interface PostsPage {
   posts: PostData[];
