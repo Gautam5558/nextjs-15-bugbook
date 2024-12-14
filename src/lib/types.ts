@@ -7,6 +7,8 @@ export const getUserDataSelect = (loggedInUserId: string) => {
     displayName: true,
     email: true,
     image: true,
+    bio: true,
+    createdAt: true,
     followers: {
       select: {
         followerId: true,
@@ -15,6 +17,7 @@ export const getUserDataSelect = (loggedInUserId: string) => {
     _count: {
       select: {
         followers: true,
+        posts: true,
       },
     },
   } satisfies Prisma.UserSelect;
