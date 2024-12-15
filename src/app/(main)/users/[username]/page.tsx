@@ -11,6 +11,7 @@ import { formatNumber } from "@/lib/utils";
 import FollowerCount from "@/components/follower-count";
 import { Button } from "@/components/ui/button";
 import FollowButton from "@/components/follow-button";
+import UserPosts from "@/components/user-posts";
 
 interface UserProfilePageProps {
   params: {
@@ -64,6 +65,7 @@ const UserProfilePage = async ({
       <main className="flex w-full min-w-0 gap-5">
         <div className="w-full min-w-0 space-y-5">
           <UserInfo userData={user} loggedInUserId={session.user.id} />
+          <UserPosts userId={user.id} />
         </div>
         <TrendsSidebar />
       </main>
