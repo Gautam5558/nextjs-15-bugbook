@@ -12,6 +12,7 @@ import FollowerCount from "@/components/follower-count";
 import { Button } from "@/components/ui/button";
 import FollowButton from "@/components/follow-button";
 import UserPosts from "@/components/user-posts";
+import Linkify from "@/components/linkify";
 
 interface UserProfilePageProps {
   params: {
@@ -133,9 +134,11 @@ const UserInfo = ({ userData, loggedInUserId }: UserInfoProps) => {
       {userData.bio && (
         <>
           <hr />
-          <div className="overflow-hidden whitespace-pre-line break-words">
-            {userData.bio}
-          </div>
+          <Linkify>
+            <div className="overflow-hidden whitespace-pre-line break-words">
+              {userData.bio}
+            </div>
+          </Linkify>
         </>
       )}
     </div>

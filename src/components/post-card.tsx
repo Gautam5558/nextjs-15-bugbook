@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import PostMoreButton from "./post-more-button";
+import Linkify from "./linkify";
 
 interface PostCardProps {
   item: PostData;
@@ -48,7 +49,9 @@ const PostCard = ({ item }: PostCardProps) => {
           //our server action where we check whether the post which is being deleted is the logged in users post.
         }
       </div>
-      <div className="whitespace-pre-line break-words">{item.content}</div>
+      <Linkify>
+        <div className="whitespace-pre-line break-words">{item.content}</div>
+      </Linkify>
     </article>
   );
 };
