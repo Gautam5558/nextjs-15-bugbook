@@ -7,6 +7,7 @@ import Link from "next/link";
 import React from "react";
 import PostMoreButton from "./post-more-button";
 import Linkify from "./linkify";
+import UserTooltip from "./user-tooltip";
 
 interface PostCardProps {
   item: PostData;
@@ -19,16 +20,20 @@ const PostCard = ({ item }: PostCardProps) => {
     <article className="group/post space-y-3 rounded-2xl bg-card p-5 shadow-sm">
       <div className="flex justify-between gap-3">
         <div className="flex flex-wrap gap-3">
-          <Link href={"/users/" + item.user.username}>
-            <UserAvatar avatarUrl={item.user.image} />
-          </Link>
-          <div>
-            <Link
-              href={"/users/" + item.user.username}
-              className="block font-medium hover:underline"
-            >
-              {item.user.displayName}
+          <UserTooltip userData={item.user}>
+            <Link href={"/users/" + item.user.username}>
+              <UserAvatar avatarUrl={item.user.image} />
             </Link>
+          </UserTooltip>
+          <div>
+            <UserTooltip userData={item.user}>
+              <Link
+                href={"/users/" + item.user.username}
+                className="block font-medium hover:underline"
+              >
+                {item.user.displayName}
+              </Link>
+            </UserTooltip>
             <Link
               href={"/posts/" + item.id}
               className="block text-sm text-muted-foreground hover:underline"

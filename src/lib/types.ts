@@ -31,6 +31,19 @@ export const postDataInclude = {
       displayName: true,
       email: true,
       image: true,
+      bio: true,
+      createdAt: true,
+      followers: {
+        select: {
+          followerId: true,
+        },
+      },
+      _count: {
+        select: {
+          followers: true,
+          posts: true,
+        },
+      },
     },
   },
 } satisfies Prisma.PostInclude;

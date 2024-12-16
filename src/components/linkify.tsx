@@ -31,6 +31,7 @@ function LinkifyUsername({ children }: LinkifyProps) {
         const username = match.slice(1);
         return (
           <Link
+            key={key}
             href={`/users/${username}`}
             className="text-primary hover:underline"
           >
@@ -52,7 +53,7 @@ function LinkifyHashtag({ children }: LinkifyProps) {
         return (
           <Link
             key={key}
-            href={`/hashtag${match.slice(1)}`}
+            href={`/hashtag/${match.slice(1)}`}
             className="text-primary hover:underline"
           >
             {match}
