@@ -7,6 +7,9 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import ReactQueryProvider from "@/components/react-query-provider";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "./api/uploadthing/core";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | bugbook",
     default: "bugbook",
   },
-  description: "The social media app for powernerdds",
+  description: "The social media app for powernerds",
 };
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,6 +40,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <ReactQueryProvider>
           <ThemeProvider
             attribute="class"
