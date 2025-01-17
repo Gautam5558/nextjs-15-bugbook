@@ -55,7 +55,7 @@ export const useUpdateProfileMutation = () => {
                       ...post,
                       user: {
                         ...updatedUser,
-                        image: newAvatarUrl,
+                        image: newAvatarUrl || updatedUser.image,
                       },
                     };
                   } else {
