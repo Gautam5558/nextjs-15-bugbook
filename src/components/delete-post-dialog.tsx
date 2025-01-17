@@ -28,7 +28,7 @@ const DeletePostDialog = ({ post, open, onClose }: DeletePostDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>Delete Post?</DialogTitle>
           <DialogDescription>

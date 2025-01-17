@@ -9,9 +9,11 @@ import { updateProfileSchema } from "@/schemas/index";
 import z from "zod";
 import { PostsPage } from "@/lib/types";
 import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export const useUpdateProfileMutation = () => {
   const queryClient = useQueryClient();
+  const navigate = useRouter();
   const mutation = useMutation({
     mutationFn: ({
       values,
@@ -28,7 +30,7 @@ export const useUpdateProfileMutation = () => {
     onSuccess: async ([updatedUser, uploadResult]) => {
       // we will now update the client side cache of user data after db data updation
 
-      const newAvatarUrl = uploadResult[0].serverData.avatarUrl;
+      const newAvatarUrl = uploadResult && uploadResult[0].serverData.avatarUrl;
 
       const queryFilter: QueryFilters = {
         queryKey: ["post-feed"],
@@ -67,7 +69,7 @@ export const useUpdateProfileMutation = () => {
           };
         },
       );
-
+      navigate.refresh();
       toast({ description: "Profile Updated" });
     },
     onError(error) {
