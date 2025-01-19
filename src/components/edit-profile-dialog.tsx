@@ -51,11 +51,16 @@ const EditProfileDialog = ({
   const mutation = useUpdateProfileMutation();
 
   function onSubmit(values: z.infer<typeof updateProfileSchema>) {
+    const newAvatar = croppedImage
+      ? new File([croppedImage], `avatar_${user.id}.webp`)
+      : undefined;
+
     setIsLoading(true);
     mutation.mutate(
-      { values },
+      { values, avatar: newAvatar },
       {
         onSuccess: () => {
+          setCroppedImage(null);
           setIsLoading(false);
           setIsDialogOpen(false);
         },

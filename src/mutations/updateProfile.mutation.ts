@@ -10,10 +10,12 @@ import z from "zod";
 import { PostsPage } from "@/lib/types";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { useUploadThing } from "@/lib/uploadthing";
 
 export const useUpdateProfileMutation = () => {
   const queryClient = useQueryClient();
   const navigate = useRouter();
+  const { startUpload: startAvatarUpload } = useUploadThing("avatar");
   const mutation = useMutation({
     mutationFn: ({
       values,

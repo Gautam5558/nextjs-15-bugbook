@@ -30,7 +30,7 @@ export const ourFileRouter = {
 
       const newAvartarUrl = file.url.replace(
         "/f/",
-        `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}`,
+        `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
       );
 
       console.log("file url", newAvartarUrl);
