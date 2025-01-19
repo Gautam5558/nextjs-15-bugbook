@@ -18,6 +18,12 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { useUpdateProfileMutation } from "@/mutations/updateProfile.mutation";
+import Image, { StaticImageData } from "next/image";
+import { Camera } from "lucide-react";
+import { Label } from "./ui/label";
+import avatarPlaceholder from "@/assets/avatar-placeholder.png";
+import CropImageDialog from "./crop-image-dialog";
+import Resizer from "react-image-file-resizer";
 
 interface EditProfileDialogProps {
   open: boolean;
@@ -37,6 +43,8 @@ const EditProfileDialog = ({
       bio: user.bio || "",
     },
   });
+
+  const [croppedImage, setCroppedImage] = useState<Blob | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -65,6 +73,17 @@ const EditProfileDialog = ({
         <DialogHeader>
           <DialogTitle>Edit Profile</DialogTitle>
         </DialogHeader>
+        <div className="space-y-1.5">
+          <Label>Avatar</Label>
+          <AvatarInput
+            src={
+              croppedImage
+                ? URL.createObjectURL(croppedImage)
+                : user.image || avatarPlaceholder
+            }
+            onImageCropped={setCroppedImage}
+          />
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -103,7 +122,7 @@ const EditProfileDialog = ({
               )}
             />
             <Button disabled={isLoading} type="submit">
-              Save
+              {isLoading ? "Saving..." : "Save"}
             </Button>
           </form>
         </Form>
@@ -113,3 +132,70 @@ const EditProfileDialog = ({
 };
 
 export default EditProfileDialog;
+
+interface AvatarInputProps {
+  src: string | StaticImageData;
+  onImageCropped: (val: Blob | null) => void;
+}
+
+const AvatarInput = ({ src, onImageCropped }: AvatarInputProps) => {
+  const [imageToCrop, setImageToCrop] = useState<File>();
+
+  const onImageSelected = (image: File | undefined) => {
+    if (!image) {
+      return;
+    }
+
+    // i have selected an image, now i will open a dialog inside which i will have a cropper to crop the image
+    // Then after cropping, i will resize the image , then upload it and get back its url.
+    Resizer.imageFileResizer(
+      image,
+      1024,
+      1024,
+      "WEBP",
+      100,
+      0,
+      (uri) => setImageToCrop(uri as File),
+      "file",
+    );
+  };
+
+  return (
+    <div className="flex justify-center">
+      <label
+        htmlFor="avatarImageInput"
+        className="group relative cursor-pointer"
+      >
+        <Image
+          src={src}
+          alt="avatarInput"
+          width={150}
+          height={150}
+          className="size-32 flex-none rounded-full object-cover"
+        />
+        <span className="absolute inset-0 left-[50%] top-[50%] flex size-12 translate-x-[-50%] translate-y-[-50%] items-center justify-center rounded-full bg-black bg-opacity-35 text-white transition-colors duration-200 group-hover:bg-opacity-25">
+          <Camera size={24} />
+        </span>
+      </label>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+          onImageSelected(e.target.files?.[0]);
+        }}
+        id="avatarImageInput"
+        className="sr-only hidden"
+      />
+      {imageToCrop && (
+        <CropImageDialog
+          src={URL.createObjectURL(imageToCrop)}
+          cropAspectRatio={1}
+          onCropped={onImageCropped}
+          onClose={() => {
+            setImageToCrop(undefined);
+          }}
+        />
+      )}
+    </div>
+  );
+};
